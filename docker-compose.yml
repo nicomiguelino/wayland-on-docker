@@ -1,0 +1,28 @@
+services:
+  main:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    privileged: true
+    stdin_open: true
+    tty: true
+    devices:
+      - /dev/dri:/dev/dri
+      - /dev/input:/dev/input
+      - /dev/tty0:/dev/tty0
+      - /dev/tty1:/dev/tty1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /run/udev:/run/udev
+      - /run/dbus:/run/dbus
+    environment:
+      - DISPLAY=${DISPLAY}
+      - XDG_RUNTIME_DIR=/tmp/runtime-devuser
+      - WAYLAND_DISPLAY=wayland-1
+      - WLR_BACKENDS=drm
+      - WLR_DRM_NO_ATOMIC=1
+      - WLR_RENDERER_ALLOW_SOFTWARE=1
+    group_add:
+      - video
+      - input
+      - render
