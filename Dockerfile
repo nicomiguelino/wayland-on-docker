@@ -24,6 +24,11 @@ RUN sudo usermod -a -G tty,video,input,render devuser
 
 RUN echo "devuser ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers.d/devuser
 
+# Create log directory with appropriate permissions
+RUN sudo mkdir -p /var/log/wayfire && \
+    sudo chown devuser:devuser /var/log/wayfire && \
+    sudo chmod 755 /var/log/wayfire
+
 # Set the default user
 USER devuser
 WORKDIR /home/devuser
